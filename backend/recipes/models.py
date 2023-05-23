@@ -33,7 +33,7 @@ class Recipe(models.Model):
         User,
         verbose_name='Автор',
         on_delete=models.CASCADE,
-        related_name='reviews',
+        related_name='author_recipe',
     )
     pub_date = models.DateTimeField('Дата публикации',
                                     auto_now_add=True)
@@ -53,7 +53,7 @@ class Recipe(models.Model):
         Ingredient,
         verbose_name='ингридиент',
         through='RecipeIngredientAmount',
-        related_name='recipes')
+        related_name='ingredients')
 
     class Meta:
         verbose_name = 'Рецепт'
@@ -89,11 +89,11 @@ class RecipeIngredientAmount(models.Model):
 
     ingredient = models.ForeignKey(Ingredient,
                                   on_delete=models.CASCADE,
-                                  related_name='ingredients',
+                                  related_name='ingredients_in_recipe',
                                   verbose_name='Ингредиент',)
     recipe = models.ForeignKey(Recipe,
                                on_delete=models.CASCADE,
-                               related_name='recipes_ingredients',
+                               related_name='recipes_with_ingredients',
                                verbose_name='Рецепт',)
     amount = models.IntegerField(validators=[MinValueValidator(1, message='Убедитесь, что это значение больше либо равно 1.'),])
 
@@ -110,7 +110,7 @@ class Favorite(models.Model):
         related_name='user_favorite',
         verbose_name='Пользователь',
     )
-    favorite = models.ForeignKey(
+    recipe = models.ForeignKey(
         Recipe,
         on_delete=models.CASCADE,
         related_name='favorite',
@@ -122,7 +122,7 @@ class Favorite(models.Model):
         verbose_name_plural = "Избранные"
         constraints = (
             models.UniqueConstraint(
-                fields=('user', 'favorite'), name='unique_favorite'
+                fields=('user', 'recipe'), name='unique_favorite'
             ),
         )
 
@@ -139,7 +139,7 @@ class Cart(models.Model):
         related_name='user_cart',
         verbose_name='Пользователь',
     )
-    cart = models.ForeignKey(
+    recipe = models.ForeignKey(
         Recipe,
         on_delete=models.CASCADE,
         related_name='cart',
@@ -149,11 +149,8 @@ class Cart(models.Model):
     class Meta:
         verbose_name = "Покупка"
         verbose_name_plural = "Покупки"
-        constraints = [models.UniqueConstraint(fields=('user', 'cart'),
-                                               name='unique_cart'),
-                       models.CheckConstraint(
-            check=~models.Q(user=models.F('cart')),
-            name='user_cart_diferent'), ]
+        constraints = [models.UniqueConstraint(fields=('user', 'recipe'),
+                                               name='unique_cart'),]
 
     def __str__(self):
         return f'{self.user.username}'

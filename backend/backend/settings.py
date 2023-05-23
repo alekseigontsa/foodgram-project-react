@@ -46,7 +46,7 @@ ROOT_URLCONF = 'backend.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': '/static',
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -90,9 +90,10 @@ DJOSER = {
     'SERIALIZERS': {
         'current_user': 'api.serializers.DjoserUserSerializer',
         'user': 'api.serializers.DjoserUserSerializer',
+        'user_create': 'api.serializers.DjoserUserCreateSerializer',
     },
     'HIDE_USERS': False,
-    'PERMISSIONS': {'user': ['rest_framework.permissions.AllowAny'],
+    'PERMISSIONS': {'user': ['djoser.permissions.CurrentUserOrAdminOrReadOnly'],
                     'user_list': ['rest_framework.permissions.AllowAny'],
                     }
 }

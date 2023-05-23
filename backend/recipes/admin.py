@@ -32,4 +32,4 @@ class RecipeAdmin(admin.ModelAdmin):
     empty_value_display = EMPTY_VALUE_DISPLAY
 
     def favorite(self, obj):
-        return Favorite.objects.filter(favorite=obj.id).count()
+        return Favorite.objects.filter(recipe=obj.id).count()

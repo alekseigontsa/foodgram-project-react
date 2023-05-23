@@ -15,7 +15,7 @@ class User(AbstractUser):
         unique=True,
         max_length=254,
     )
-    first_name = models.CharField(_('first name'), max_length=30)
+    first_name = models.CharField(_('first name'), max_length=30, blank=False)
     last_name = models.CharField(_('last name'), max_length=150)
     role = models.CharField(
         verbose_name='Роль пользователя',
@@ -23,7 +23,7 @@ class User(AbstractUser):
         choices=CHOICES_ROLE,
         default=user,
     )
-    confirmation_code = models.CharField(max_length=50, blank=True)
+    REQUIRED_FIELDS = ['email', 'first_name', 'last_name']
 
     def __str__(self):
         return f'{self.first_name} {self.last_name}'
