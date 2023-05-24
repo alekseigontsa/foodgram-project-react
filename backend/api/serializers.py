@@ -2,17 +2,12 @@ import base64
 import re
 
 from django.core.files.base import ContentFile
+from djoser.serializers import UserCreateSerializer, UserSerializer
 from rest_framework import serializers
-from djoser.serializers import UserSerializer, UserCreateSerializer
 
-
-from recipes.models import (Ingredient, Tag,
-                            Recipe, RecipeIngredientAmount,
-                            Favorite, Subscribe, Cart)
-
-
+from recipes.models import (Cart, Favorite, Ingredient, Recipe,
+                            RecipeIngredientAmount, Subscribe, Tag)
 from users.models import User
-
 
 REGEXP = r'^[\w.@+-]+\Z'
 
@@ -44,7 +39,7 @@ class DjoserUserSerializer(UserSerializer):
 
 
 class DjoserUserCreateSerializer(UserCreateSerializer):
-
+    """ Сериализатор для вывода пользователей. """
     class Meta(UserCreateSerializer.Meta):
         model = User
         fields = ('email', 'id', 'username',
@@ -56,21 +51,22 @@ class DjoserUserCreateSerializer(UserCreateSerializer):
 
 
 class TagSerializer(serializers.ModelSerializer):
-
+    """ Сериализатор для вывода тегов. """
     class Meta:
         model = Tag
         fields = ('id', 'name', 'color', 'slug')
 
 
 class IngredientSerializer(serializers.ModelSerializer):
-
+    """ Сериализатор для вывода ингредиентов. """
     class Meta:
         model = Ingredient
         fields = ('id', 'name', 'measurement_unit',)
 
 
 class RecipeIngredientAmountSerializer(serializers.ModelSerializer):
-    """ Сериализатор для вывода ингредиентов. """
+    """ Сериализатор для вывода ингредиентов через 
+    промежуточную таблицу при запросе get. """
     id = serializers.IntegerField(source='ingredient.id')
     name = serializers.CharField(source='ingredient.name',)
     measurement_unit = serializers.CharField(
@@ -96,18 +92,18 @@ class ReciIngrediWriteSerializer(serializers.ModelSerializer):
 
 
 class Base64ImageField(serializers.ImageField):
+    """ Сериализатор для вывода картинок. """
     def to_internal_value(self, data):
         if isinstance(data, str) and data.startswith('data:image'):
             format, imgstr = data.split(';base64,')
             ext = format.split('/')[-1]
 
             data = ContentFile(base64.b64decode(imgstr), name='temp.' + ext)
-
         return super().to_internal_value(data)
 
 
 class RecipeWriteSerializer(serializers.ModelSerializer):
-    """ Сериализатор для POST/PATCH-запросов рецептов. """
+    """ Сериализатор для добавления и изменения рецептов. """
     tags = serializers.PrimaryKeyRelatedField(
         many=True, queryset=Tag.objects.all())
     ingredients = ReciIngrediWriteSerializer(many=True)
@@ -178,7 +174,6 @@ class RecipeWriteSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         self.fields.pop('ingredients')
-        # self.fields.pop('tags')
         representation = super().to_representation(instance)
         representation['tags'] = TagSerializer(
             instance.tags.all(), many=True).data
@@ -188,7 +183,7 @@ class RecipeWriteSerializer(serializers.ModelSerializer):
 
 
 class ReciepeReadSerializer(serializers.ModelSerializer):
-
+    """ Сериализатор для вывода рецептов. """
     tags = TagSerializer(many=True)
     author = DjoserUserSerializer(required=False, read_only=True)
     ingredients = RecipeIngredientAmountSerializer(
@@ -196,7 +191,7 @@ class ReciepeReadSerializer(serializers.ModelSerializer):
         many=True)
     is_favorited = serializers.SerializerMethodField(read_only=True)
     is_in_shopping_cart = serializers.SerializerMethodField(read_only=True)
-    image = Base64ImageField(required=False)
+    image = Base64ImageField(max_length=None, use_url=True)
 
     class Meta:
         model = Recipe
@@ -220,8 +215,8 @@ class ReciepeReadSerializer(serializers.ModelSerializer):
                                    recipe=obj).exists()
 
 
-class RecipeReadSerializer(serializers.ModelSerializer):
-    """ Сериализатор миниформата рецепта (для Favs и Cart). """
+class RecipeReadMiniSerializer(serializers.ModelSerializer):
+    """ Сериализатор миниформата рецепта (для Favorite и Cart). """
 
     image = Base64ImageField()
 
@@ -231,7 +226,7 @@ class RecipeReadSerializer(serializers.ModelSerializer):
 
 
 class SubscribeSerializer(serializers.ModelSerializer):
-    """ Сериализатор для вывода страницы «Мои подписки». """
+    """ Сериализатор для вывода страницы подписок. """
     id = serializers.ReadOnlyField(source='author.id')
     email = serializers.ReadOnlyField(source='author.email')
     username = serializers.ReadOnlyField(source='author.username')
@@ -260,4 +255,4 @@ class SubscribeSerializer(serializers.ModelSerializer):
             author=obj.author).order_by('-pub_date')
         if rec_limit:
             queryset = queryset[:int(rec_limit)]
-        return RecipeReadSerializer(queryset, many=True).data
+        return RecipeReadMiniSerializer(queryset, many=True).data

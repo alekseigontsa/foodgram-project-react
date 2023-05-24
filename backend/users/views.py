@@ -1,14 +1,15 @@
 from django.shortcuts import get_object_or_404
-from rest_framework.decorators import action
-from rest_framework.response import Response
+from djoser.views import UserViewSet
 from rest_framework import status
+from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
 
 from api.paginations import AvailablePagination
-from recipes.models import Subscribe
-from .models import User
 from api.serializers import SubscribeSerializer
-from djoser.views import UserViewSet
+from recipes.models import Subscribe
+
+from .models import User
 
 
 class CustomUserViewSet(UserViewSet):
@@ -58,7 +59,7 @@ class CustomUserViewSet(UserViewSet):
             serializer = SubscribeSerializer(
                 author, context={'request': request})
             return Response(serializer.data,
-                            status=status.HTTP_201_CREATED) 
+                            status=status.HTTP_201_CREATED)
         if not Subscribe.objects.filter(user=user,
                                         author=author).exists():
             return Response({'errors': 'Вы не подписаны!'},

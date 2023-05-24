@@ -1,18 +1,17 @@
 from django_filters import rest_framework as dfilters
+from rest_framework import status, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from rest_framework import permissions, status, viewsets
-from rest_framework.permissions import IsAuthenticated
 
-
-from .paginations import AvailablePagination
-from .filters import RecipeFilter, IngredientFilter
-from .utils import download_cart, post_or_delete_recipe
-from .permissions import IsAdminUserOrReadOnly, IsAuthorAdminOrReadOnly
 from ingredients.models import Ingredient
-from recipes.models import Tag, Recipe, Favorite, Cart
-from .serializers import (TagSerializer, ReciepeReadSerializer,
-                          IngredientSerializer, RecipeWriteSerializer)
+from recipes.models import Cart, Favorite, Recipe, Tag
+
+from .filters import IngredientFilter, RecipeFilter
+from .paginations import AvailablePagination
+from .permissions import IsAuthorAdminOrReadOnly
+from .serializers import (IngredientSerializer, ReciepeReadSerializer,
+                          RecipeWriteSerializer, TagSerializer)
+from .utils import download_cart, post_or_delete_recipe
 
 
 class TagViewSet(viewsets.ReadOnlyModelViewSet):
@@ -38,7 +37,6 @@ class RecipeViewSet(viewsets.ModelViewSet):
      Создавать рецепты может только авторизованный."""
 
     queryset = Recipe.objects.all()
-    # serializer_class = ReciepeReadSerializer
     pagination_class = AvailablePagination
     filter_backends = (dfilters.DjangoFilterBackend,)
     filterset_class = RecipeFilter
@@ -60,7 +58,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
         detail=True,
         url_path='favorite',
         methods=['POST', 'DELETE'],
-        permission_classes=(IsAuthenticated,))
+        permission_classes=(IsAuthorAdminOrReadOnly,))
     def favorite(self, request, pk):
         return post_or_delete_recipe(self, request, pk, model=Favorite)
 

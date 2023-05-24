@@ -2,10 +2,8 @@ from django.contrib import admin
 
 from backend.settings import EMPTY_VALUE_DISPLAY
 
-from .models import (Recipe, Tag,
-                     RecipeIngredientAmount, Cart,
-                     Favorite, Subscribe, TagRecipe)
-
+from .models import (Cart, Favorite, Recipe, RecipeIngredientAmount, Subscribe,
+                     Tag, TagRecipe)
 
 admin.site.register(RecipeIngredientAmount)
 admin.site.register(Tag)

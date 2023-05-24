@@ -1,6 +1,5 @@
 from colorfield.fields import ColorField
 from django.contrib.auth import get_user_model
-from django.core.exceptions import ValidationError
 from django.core.validators import MinValueValidator
 from django.db import models
 
@@ -100,6 +99,7 @@ class RecipeIngredientAmount(models.Model):
     class Meta:
         verbose_name = 'Количество ингридиента в рецепте'
         verbose_name_plural = 'Количество ингридиентов в рецепте'
+
 
 class Favorite(models.Model):
     """Создает модель избранных рецептов пользователя."""
