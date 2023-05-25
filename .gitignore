@@ -135,3 +135,4 @@ static/
 media/
 .media
 node_modules/
+.node_modules/
