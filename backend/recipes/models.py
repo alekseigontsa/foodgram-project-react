@@ -57,7 +57,7 @@ class Recipe(models.Model):
     class Meta:
         verbose_name = 'Рецепт'
         verbose_name_plural = 'Рецепты'
-        ordering = ('name',)
+        ordering = ('-pub_date',)
 
     def __str__(self):
         return self.name[:15]
@@ -99,6 +99,8 @@ class RecipeIngredientAmount(models.Model):
     class Meta:
         verbose_name = 'Количество ингридиента в рецепте'
         verbose_name_plural = 'Количество ингридиентов в рецепте'
+        constraints = [models.UniqueConstraint(fields=('ingredient', 'recipe'),
+                                        name='unique_ingredient'),]
 
 
 class Favorite(models.Model):

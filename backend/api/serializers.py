@@ -65,8 +65,8 @@ class IngredientSerializer(serializers.ModelSerializer):
 
 
 class RecipeIngredientAmountSerializer(serializers.ModelSerializer):
-    """ Сериализатор для вывода ингредиентов через 
-    промежуточную таблицу при запросе get. """
+    """ Сериализатор для вывода ингредиентов через
+     промежуточную таблицу при запросе get. """
     id = serializers.IntegerField(source='ingredient.id')
     name = serializers.CharField(source='ingredient.name',)
     measurement_unit = serializers.CharField(
@@ -144,7 +144,6 @@ class RecipeWriteSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         """ Переписывает целиком вложенные сериализаторы tag и ingredient. """
-        print(validated_data)
         instance.image = validated_data.get('image', instance.image)
         instance.name = validated_data.get('name', instance.name)
         instance.text = validated_data.get('text', instance.text)

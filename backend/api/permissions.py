@@ -3,9 +3,9 @@ from rest_framework import permissions
 
 class IsAuthorAdminOrReadOnly(permissions.BasePermission):
 
-    message = 'Неавторизованным пользователям разрешён только просмотр. \
-               Если пользователь является администратором \
-               или владельцем записи, то возможны остальные методы.'
+    message = ('Неавторизованным пользователям разрешён только просмотр. '
+               'Если пользователь является администратором '
+               'или владельцем записи, то возможны остальные методы.')
 
     def has_permission(self, request, view):
         return (

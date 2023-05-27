@@ -30,12 +30,9 @@ class CustomUserViewSet(UserViewSet):
         user = request.user
         queryset = Subscribe.objects.filter(user=user)
         cur_page = self.paginate_queryset(queryset)
-        if queryset.exists():
-            serializer = SubscribeSerializer(
-                cur_page, many=True, context={'request': request})
-            return self.get_paginated_response(serializer.data)
-        return Response(
-            'errors: Нет подписок.', status=status.HTTP_404_NOT_FOUND)
+        serializer = SubscribeSerializer(
+            cur_page, many=True, context={'request': request})
+        return self.get_paginated_response(serializer.data)
 
     @action(
         detail=True,
