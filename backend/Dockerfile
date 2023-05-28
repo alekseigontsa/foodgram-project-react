@@ -1,5 +1,4 @@
 FROM python:3.7-slim
-RUN apt-get install libcairo2-dev pkg-config python3-dev
 WORKDIR /app
 COPY ./backend/requirements.txt /
 RUN apt-get update \
@@ -13,6 +12,7 @@ RUN apt-get update \
         libc6-dev \
         libpq-dev \
     && rm -rf /var/lib/apt/lists/*
+RUN apt-get install libcairo2-dev pkg-config python3-dev
 RUN pip3 install --upgrade pip
 RUN pip3 install -r /requirements.txt --no-cache-dir
 COPY . ./
