@@ -11,7 +11,7 @@ RUN apt-get update \
         ffmpeg \
         libcairo2 \
         libcairo2-dev \
-        texlive-full \
+        # texlive-full \
     && pip3 install -r /requirements.txt --no-cache-dir \
     && apt-get purge --assume-yes --auto-remove \
         gcc \
@@ -19,7 +19,7 @@ RUN apt-get update \
         libpq-dev \
     && rm -rf /var/lib/apt/lists/*
 # RUN pip3 install -r /requirements.txt --no-cache-dir
-COPY . ./
+COPY ./backend/ ./
 # RUN python3 manage.py migrate
 # RUN python3 manage.py collectstatic --no-input
 CMD ["gunicorn", "api_yamdb.wsgi:application", "--bind", "0:8000"]
