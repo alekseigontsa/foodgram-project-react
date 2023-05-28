@@ -6,15 +6,14 @@ RUN apt-get update \
         gcc \
         libc6-dev \
         libpq-dev \
-    && python3 -m pip install --no-cache-dir -r requirements.txt \
+    && pip3 install -r /requirements.txt --no-cache-dir \
     && apt-get purge --assume-yes --auto-remove \
         gcc \
         libc6-dev \
         libpq-dev \
     && rm -rf /var/lib/apt/lists/*
-RUN apt-get install libcairo2-dev pkg-config python3-dev
-RUN pip3 install --upgrade pip
-RUN pip3 install -r /requirements.txt --no-cache-dir
+# RUN pip3 install --upgrade pip
+# RUN pip3 install -r /requirements.txt --no-cache-dir
 COPY . ./
 RUN python3 manage.py makemigrations
 RUN python3 manage.py migrate

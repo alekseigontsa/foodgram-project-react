@@ -39,9 +39,7 @@ class DjoserUserSerializer(UserSerializer):
 
 
 class DjoserUserCreateSerializer(UserCreateSerializer):
-    """
-    Сериализатор для вывода пользователей.
-    """
+    """Сериализатор для вывода пользователей."""
     class Meta(UserCreateSerializer.Meta):
         model = User
         fields = ('email', 'id', 'username',
@@ -53,26 +51,21 @@ class DjoserUserCreateSerializer(UserCreateSerializer):
 
 
 class TagSerializer(serializers.ModelSerializer):
-    """
-    Сериализатор для вывода тегов.
-    """
+    """Сериализатор для вывода тегов."""
     class Meta:
         model = Tag
         fields = ('id', 'name', 'color', 'slug')
 
 
 class IngredientSerializer(serializers.ModelSerializer):
-    """
-    Сериализатор для вывода ингредиентов.
-    """
+    """Сериализатор для вывода ингредиентов."""
     class Meta:
         model = Ingredient
         fields = ('id', 'name', 'measurement_unit',)
 
 
 class RecipeIngredientAmountSerializer(serializers.ModelSerializer):
-    """
-    Сериализатор для вывода ингредиентов через
+    """Сериализатор для вывода ингредиентов через
      промежуточную таблицу при запросе get.
      """
     id = serializers.IntegerField(source='ingredient.id')
@@ -87,9 +80,7 @@ class RecipeIngredientAmountSerializer(serializers.ModelSerializer):
 
 
 class ReciIngrediWriteSerializer(serializers.ModelSerializer):
-    """
-    Сериализатор для создания и обновления рецептов.
-    """
+    """Сериализатор для создания и обновления рецептов."""
     recipe = serializers.PrimaryKeyRelatedField(read_only=True)
     amount = serializers.IntegerField(write_only=True, min_value=1)
     id = serializers.PrimaryKeyRelatedField(
@@ -102,9 +93,7 @@ class ReciIngrediWriteSerializer(serializers.ModelSerializer):
 
 
 class Base64ImageField(serializers.ImageField):
-    """
-    Сериализатор для вывода картинок.
-    """
+    """Сериализатор для вывода картинок."""
     def to_internal_value(self, data):
         if isinstance(data, str) and data.startswith('data:image'):
             format, imgstr = data.split(';base64,')
@@ -115,9 +104,7 @@ class Base64ImageField(serializers.ImageField):
 
 
 class RecipeWriteSerializer(serializers.ModelSerializer):
-    """
-    Сериализатор для добавления и изменения рецептов.
-    """
+    """Сериализатор для добавления и изменения рецептов."""
     tags = serializers.PrimaryKeyRelatedField(
         many=True, queryset=Tag.objects.all())
     ingredients = ReciIngrediWriteSerializer(many=True)
@@ -140,9 +127,7 @@ class RecipeWriteSerializer(serializers.ModelSerializer):
         return data
 
     def create(self, validated_data):
-        """
-        Создаёт вложенные сериализаторы tag и ingredient.
-        """
+        """Создаёт вложенные сериализаторы tag и ingredient."""
         current_user = self.context['request'].user
         if not current_user.pk:
             raise serializers.ValidationError('Пользователя не существует.')
