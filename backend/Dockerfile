@@ -7,18 +7,14 @@ RUN apt-get update \
         gcc \
         libc6-dev \
         libpq-dev \
-        # sox \
-        # ffmpeg \
         libcairo2 \
         libcairo2-dev \
-        # texlive-full \
     && pip3 install -r /requirements.txt --no-cache-dir \
     && apt-get purge --assume-yes --auto-remove \
         gcc \
         libc6-dev \
         libpq-dev \
     && rm -rf /var/lib/apt/lists/*
-# RUN pip3 install -r /requirements.txt --no-cache-dir
 COPY ./backend/ ./
 # RUN python3 manage.py migrate
 # RUN python3 manage.py collectstatic --no-input
