@@ -7,8 +7,8 @@ RUN apt-get update \
         gcc \
         libc6-dev \
         libpq-dev \
-        sox \
-        ffmpeg \
+        # sox \
+        # ffmpeg \
         libcairo2 \
         libcairo2-dev \
         # texlive-full \
