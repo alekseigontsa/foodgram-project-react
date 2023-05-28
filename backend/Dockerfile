@@ -1,7 +1,6 @@
 FROM python:3.7-slim
 WORKDIR /app
 COPY ./backend/requirements.txt /
-RUN pip install manimce
 RUN apt-get update \
     && apt-get install --assume-yes --no-install-recommends \
         gcc \
