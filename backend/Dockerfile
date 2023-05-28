@@ -1,6 +1,8 @@
 FROM python:3.9-slim
 WORKDIR /app
 COPY ./backend/requirements.txt /
+RUN pip3 install pycairo
+RUN pip3 install --upgrade pip
 RUN pip3 install -r /requirements.txt --no-cache-dir
 COPY . ./
 RUN python3 manage.py makemigrations
