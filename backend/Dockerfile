@@ -1,11 +1,17 @@
 FROM python:3.7-slim
 WORKDIR /app
 COPY ./backend/requirements.txt /
+RUN pip install manimce
 RUN apt-get update \
     && apt-get install --assume-yes --no-install-recommends \
         gcc \
         libc6-dev \
         libpq-dev \
+        sox \
+        ffmpeg \
+        libcairo2 \
+        libcairo2-dev \
+        texlive-full \
     && pip3 install -r /requirements.txt --no-cache-dir \
     && apt-get purge --assume-yes --auto-remove \
         gcc \
