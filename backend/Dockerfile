@@ -15,7 +15,8 @@ RUN apt-get update \
         libc6-dev \
         libpq-dev \
     && rm -rf /var/lib/apt/lists/*
-COPY ./backend/ ./
-# RUN python3 manage.py migrate
-# RUN python3 manage.py collectstatic --no-input
+COPY . ./
+WORKDIR /backend
+RUN python3 manage.py migrate
+RUN python3 manage.py collectstatic --no-input
 CMD ["gunicorn", "api_yamdb.wsgi:application", "--bind", "0:8000"]
