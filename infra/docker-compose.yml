@@ -11,8 +11,8 @@ services:
     image: alexgon/foodgram_backend:latest
     restart: always
     volumes:
-      - static_value:/app/static/
-      - media_values:/app/media/
+      - static_value_backend:/app/static/
+      - media_values_backend:/app/media/
     depends_on:
       - db
     env_file:
@@ -41,3 +41,5 @@ volumes:
   db_data:
   static_value:
   media_value:
+  static_value_backend:
+  media_value_backend:
