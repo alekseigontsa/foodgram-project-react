@@ -1,6 +1,6 @@
 FROM python:3.7-slim
 WORKDIR /app
-COPY ./backend/requirements.txt /
+COPY ./requirements.txt /
 RUN pip3 install --upgrade pip
 RUN apt-get update \
     && apt-get install --assume-yes --no-install-recommends \
@@ -16,7 +16,7 @@ RUN apt-get update \
         libpq-dev \
     && rm -rf /var/lib/apt/lists/*
 COPY . ./
-WORKDIR /backend
-RUN python3 manage.py migrate
-RUN python3 manage.py collectstatic --no-input
-CMD ["gunicorn", "api_yamdb.wsgi:application", "--bind", "0:8000"]
+# WORKDIR /backend
+# RUN python3 manage.py migrate
+# RUN python3 manage.py collectstatic --no-input
+CMD ["gunicorn", "backend.wsgi:application", "--bind", "0:8000"]
