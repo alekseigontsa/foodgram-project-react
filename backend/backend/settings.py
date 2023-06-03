@@ -10,7 +10,7 @@ SECRET_KEY = os.getenv('SECRET_KEY', '52xcn2v(@we56jeq1)#n2ela8z(q^y0d*_7(!3$mll
 
 DEBUG = (os.getenv('DEBUG', 'False') == 'True')
 
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', ['*',]).split(',')
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '*,').split(',')
 
 # CORS_URLS_REGEX = r'^/api/.*$'
 # CORS_ALLOWED_ORIGINS = [
@@ -71,7 +71,7 @@ DATABASES = {
         'NAME': os.getenv('DB_NAME', 'postgres'),
         'USER': os.getenv('POSTGRES_USER', 'postgres'),
         'PASSWORD': os.getenv('POSTGRES_PASSWORD', 'admin'),
-        'HOST': os.getenv('DB_HOST', 'localhost'),
+        'HOST': os.getenv('DB_HOST', 'db'),
         'PORT': os.getenv('DB_PORT', 5432)}
 }
 

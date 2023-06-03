@@ -67,7 +67,7 @@ jobs:
         script: |
           sudo systemctl stop nginx
           sudo docker-compose stop
-          sudo docker-compose rm web -f
+          sudo docker-compose rm down -v
           sudo docker pull ${{ secrets.DOCKER_USERNAME }}/foodgram_backend:latest
           sudo docker pull ${{ secrets.DOCKER_USERNAME }}/foodgram_frontend:latest
           sudo rm .env
@@ -79,6 +79,8 @@ jobs:
           sudo echo DB_HOST=${{ secrets.DB_HOST }} >> .env
           sudo echo DB_PORT=${{ secrets.DB_PORT }} >> .env
           sudo docker-compose up -d
+          sudo docker-compose exec backend python manage.py migrate
+          sudo docker-compose exec backend python manage.py collectstatic --no-input 
 
   send_message:
     runs-on: ubuntu-latest

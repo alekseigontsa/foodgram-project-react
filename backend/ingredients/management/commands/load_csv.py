@@ -12,7 +12,8 @@ from ingredients.models import Ingredient
 
 
 def read_csv(file_name: str):
-    csv_path = Path(settings.BASE_DIR, '../data/', file_name)
+    # csv_path = Path(settings.BASE_DIR, '../data/', file_name)
+    csv_path = Path('/home/food/data/', file_name)
     csv_file = open(csv_path, 'r', encoding='utf-8')
     reader = csv.reader(csv_file, delimiter=',')
     return reader
