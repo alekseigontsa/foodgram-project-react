@@ -44,8 +44,7 @@ class Recipe(models.Model):
     text = models.TextField('Текстовое описание')
     cooking_time = models.SmallIntegerField('Время приготовления',
                                             validators=[
-                                                MinValueValidator(1),
-                                                ]
+                                                MinValueValidator(1),]
                                             )
     ingredients = models.ManyToManyField(
         Ingredient,
@@ -93,16 +92,16 @@ class RecipeIngredientAmount(models.Model):
                                on_delete=models.CASCADE,
                                related_name='recipes_with_ingredients',
                                verbose_name='Рецепт',)
-    amount = models.IntegerField(validators=
-                                 [MinValueValidator(
-                                     1, message=('Убедитесь, что это'
-                                     ' значение больше либо равно 1.')),])
+    amount = models.IntegerField(validators=[MinValueValidator(
+        1,
+        message=('Убедитесь, что это'
+                 ' значение больше либо равно 1.')), ])
 
     class Meta:
         verbose_name = 'Количество ингридиента в рецепте'
         verbose_name_plural = 'Количество ингридиентов в рецепте'
         constraints = [models.UniqueConstraint(fields=('ingredient', 'recipe'),
-                                               name='unique_ingredient'),]
+                                               name='unique_ingredient'), ]
 
 
 class Favorite(models.Model):
@@ -154,7 +153,7 @@ class Cart(models.Model):
         verbose_name = "Покупка"
         verbose_name_plural = "Покупки"
         constraints = [models.UniqueConstraint(fields=('user', 'recipe'),
-                                               name='unique_cart'),]
+                                               name='unique_cart'), ]
 
     def __str__(self):
         return f'{self.user.username}'

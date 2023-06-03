@@ -60,10 +60,9 @@ def download_cart(self, request, user):
     )
     pdf_file.setFont(font, 14)
     pdf_file.drawString(
-            200,
-            740,
-            f'Список покупок на: {today}'
-        )
+        200,
+        740,
+        f'Список покупок на: {today}')
     from_bottom = 720
     pdf_file.setFont(font, 11)
     for number, ingredient in enumerate(sum_ingredients_in_recipes, start=1):
@@ -87,9 +86,8 @@ def download_cart(self, request, user):
     pdf_file.setFont(font, 6)
     pdf_file.drawString(
         50,
-        from_bottom-20,
-        'Foodgram 05.2023 by @alekseigontsa'
-    )
+        from_bottom - 20,
+        'Foodgram 05.2023 by @alekseigontsa')
     pdf_file.showPage()
     pdf_file.save()
     return response
