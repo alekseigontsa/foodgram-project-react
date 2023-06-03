@@ -67,7 +67,7 @@ jobs:
         script: |
           sudo systemctl stop nginx
           sudo docker-compose stop
-          sudo docker-compose rm down -v
+          sudo docker-compose down -v
           sudo docker pull ${{ secrets.DOCKER_USERNAME }}/foodgram_backend:latest
           sudo docker pull ${{ secrets.DOCKER_USERNAME }}/foodgram_frontend:latest
           sudo rm .env
