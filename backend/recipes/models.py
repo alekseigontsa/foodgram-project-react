@@ -44,7 +44,7 @@ class Recipe(models.Model):
     text = models.TextField('Текстовое описание')
     cooking_time = models.SmallIntegerField('Время приготовления',
                                             validators=[
-                                                MinValueValidator(1),]
+                                                MinValueValidator(1), ]
                                             )
     ingredients = models.ManyToManyField(
         Ingredient,
