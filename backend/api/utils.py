@@ -35,6 +35,7 @@ def post_or_delete_recipe(self, request, pk, model):
     return Response('Рецепт удален из списка',
                     status=status.HTTP_204_NO_CONTENT)
 
+
 def download_cart(self, request, user):
     """Скачивание списка продуктов для выбранных рецептов пользователя."""
     sum_ingredients_in_recipes = RecipeIngredientAmount.objects.filter(
@@ -87,7 +88,7 @@ def download_cart(self, request, user):
     pdf_file.drawString(
         50,
         from_bottom-20,
-        f'Foodgram 05.2023 by @alekseigontsa'
+        'Foodgram 05.2023 by @alekseigontsa'
     )
     pdf_file.showPage()
     pdf_file.save()

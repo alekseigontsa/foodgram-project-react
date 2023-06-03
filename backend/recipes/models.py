@@ -12,7 +12,7 @@ class Tag(models.Model):
     """Класс тегов."""
 
     name = models.CharField('Hазвание', max_length=75)
-    color =ColorField('Цвет', format="hex", null=True)
+    color = ColorField('Цвет', format="hex", null=True)
     slug = models.SlugField('slug', unique=True, null=True)
 
     class Meta:
@@ -41,7 +41,6 @@ class Recipe(models.Model):
                                   through='TagRecipe',
                                   related_name='tag_recipes')
     image = models.ImageField('Изображение', upload_to='recipes/',)
-    
     text = models.TextField('Текстовое описание')
     cooking_time = models.SmallIntegerField('Время приготовления',
                                             validators=[
@@ -87,20 +86,23 @@ class RecipeIngredientAmount(models.Model):
     """Модель списка ингредиентов в рецепте."""
 
     ingredient = models.ForeignKey(Ingredient,
-                                  on_delete=models.CASCADE,
-                                  related_name='ingredients_in_recipe',
-                                  verbose_name='Ингредиент',)
+                                   on_delete=models.CASCADE,
+                                   related_name='ingredients_in_recipe',
+                                   verbose_name='Ингредиент',)
     recipe = models.ForeignKey(Recipe,
                                on_delete=models.CASCADE,
                                related_name='recipes_with_ingredients',
                                verbose_name='Рецепт',)
-    amount = models.IntegerField(validators=[MinValueValidator(1, message='Убедитесь, что это значение больше либо равно 1.'),])
+    amount = models.IntegerField(validators=
+                                 [MinValueValidator(
+                                     1, message=('Убедитесь, что это'
+                                     ' значение больше либо равно 1.')),])
 
     class Meta:
         verbose_name = 'Количество ингридиента в рецепте'
         verbose_name_plural = 'Количество ингридиентов в рецепте'
         constraints = [models.UniqueConstraint(fields=('ingredient', 'recipe'),
-                                        name='unique_ingredient'),]
+                                               name='unique_ingredient'),]
 
 
 class Favorite(models.Model):

@@ -5,7 +5,7 @@
 import csv
 from pathlib import Path
 
-from django.conf import settings
+# from django.conf import settings
 from django.core.management.base import BaseCommand
 
 from ingredients.models import Ingredient
@@ -15,8 +15,7 @@ def read_csv(file_name: str):
     # csv_path = Path(settings.BASE_DIR, '../data/', file_name)
     csv_path = Path('/home/food/data/', file_name)
     csv_file = open(csv_path, 'r', encoding='utf-8')
-    reader = csv.reader(csv_file, delimiter=',')
-    return reader
+    return csv.reader(csv_file, delimiter=',')
 
 
 class Command(BaseCommand):
