@@ -78,6 +78,8 @@ class RecipeViewSet(viewsets.ModelViewSet):
         """Скачать список покупок."""
         user = self.request.user
         if user.user_cart.exists():
-            return download_cart(self, request, user)
+            return Response({'errors': 'Существует адрес!'},
+                            status=status.HTTP_404_NOT_FOUND)
+            # return download_cart(self, request, user)
         return Response({'errors': 'Список покупок пуст!'},
                         status=status.HTTP_404_NOT_FOUND)
