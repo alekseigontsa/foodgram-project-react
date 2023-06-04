@@ -1,5 +1,5 @@
-from datetime import date
 import io
+from datetime import date
 
 import reportlab
 from django.conf import settings
@@ -95,4 +95,4 @@ def download_cart(self, request, user):
     pdf_file.save()
     response.seek(0)
     return FileResponse(
-            response, as_attachment=True, filename=filename)
+        response, as_attachment=True, filename=filename)
