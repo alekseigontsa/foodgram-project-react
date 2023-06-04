@@ -51,7 +51,7 @@ def download_cart(self, request, user):
     today = date.today().strftime("%d-%m-%Y")
     filename = f'shopping_list_{today}.pdf'
     pdfmetrics.registerFont(
-        TTFont('Times', 'times.ttf', 'UTF-8'))
+        TTFont('Times', 'Times New Roman Regular.ttf', 'UTF-8'))
     font = 'Times'
     response = io.BytesIO()
     pdf_file = canvas.Canvas(response)
