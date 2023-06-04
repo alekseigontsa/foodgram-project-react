@@ -1,10 +1,11 @@
 # Fooodgram by Aleksei Gontsa
 
 admin admin<br>
-http://???/redoc/<br>
-http://???/admin/<br>
+alex Qwerty123=<br>
+http://51.250.29.137/<br>
+http://alexgontsa.ddns.net/<br>
 
-![example workflow](https://github.com/alekseigontsa/foodgram-project-react/actions/workflows/yamdb_workflow.yml/badge.svg)
+![example workflow](https://github.com/alekseigontsa/foodgram-project-react/actions/workflows/foodgram_workflow.yml/badge.svg)
 
 **foodgram - сервис «Продуктовый помощник».**<br>
 На этом сервисе пользователи смогут публиковать рецепты, подписываться на публикации других пользователей, добавлять понравившиеся рецепты в список «Избранное», а перед походом в магазин скачивать сводный список продуктов, необходимых для приготовления одного или нескольких выбранных блюд..<br>
@@ -19,9 +20,11 @@ http://???/admin/<br>
 
 #### Для работы с проектом:  
 1. Скачайте репозиторий.
-2. Запустите контейнер командой sudo docker-compose up --build
-3. Выполните команды:
-  - docker-compose exec web python manage.py createsuperuser
+2. Создайте контейнер backend командой docker build -t ***/foodgram_backend:latest .
+3. Создайте контейнер frontend командой docker build -t ***/foodgram_frontend:latest .
+4. Запустите контейнер командой sudo docker-compose up -d
+5. Выполните команды:
+  - docker-compose exec backend python manage.py createsuperuser
 <hr>
 
 #### Примеры запросов:
