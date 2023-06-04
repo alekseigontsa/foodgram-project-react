@@ -1,7 +1,10 @@
 from datetime import date
+import io
 
+import reportlab
+from django.conf import settings
 from django.db.models import Sum
-from django.http import HttpResponse
+from django.http import FileResponse
 from django.shortcuts import get_object_or_404
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
@@ -44,13 +47,13 @@ def download_cart(self, request, user):
         'ingredient__name', 'ingredient__measurement_unit'
     ).annotate(
         amounts=Sum('amount')).order_by('amounts')
+    reportlab.rl_config.TTFSearchPath.append(str(settings.BASE_DIR) + '/data')
     today = date.today().strftime("%d-%m-%Y")
     filename = f'shopping_list_{today}.pdf'
     pdfmetrics.registerFont(
-        TTFont('TNR', 'times.ttf', 'UTF-8'))
-    font = 'TNR'
-    response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = f'attachment; filename={filename}'
+        TTFont('Times', 'times.ttf', 'UTF-8'))
+    font = 'Times'
+    response = io.BytesIO()
     pdf_file = canvas.Canvas(response)
     pdf_file.setFont(font, 10)
     pdf_file.drawString(
@@ -90,4 +93,6 @@ def download_cart(self, request, user):
         'Foodgram 05.2023 by @alekseigontsa')
     pdf_file.showPage()
     pdf_file.save()
-    return response
+    response.seek(0)
+    return FileResponse(
+            response, as_attachment=True, filename=filename)
