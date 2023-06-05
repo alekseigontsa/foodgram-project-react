@@ -1,7 +1,9 @@
 # Fooodgram by Aleksei Gontsa
 
-admin admin<br>
-alex Qwerty123=<br>
+Для входа:
+Сайт: admin@mail.ru admin<br>
+Админка: admin admin<br>
+Сайт: alex@mail.ru Qwerty123=<br>
 http://51.250.29.137/<br>
 http://alexgontsa.ddns.net/<br>
 
