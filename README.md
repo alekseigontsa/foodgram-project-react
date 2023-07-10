@@ -1,12 +1,5 @@
 # Fooodgram by Aleksei Gontsa
 
-Для входа:
-Сайт: admin@mail.ru admin<br>
-Админка: admin admin<br>
-Сайт: alex@mail.ru Qwerty123=<br>
-http://51.250.29.137/<br>
-http://alexgontsa.ddns.net/<br>
-
 ![example workflow](https://github.com/alekseigontsa/foodgram-project-react/actions/workflows/foodgram_workflow.yml/badge.svg)
 
 **foodgram - сервис «Продуктовый помощник».**<br>
@@ -37,7 +30,6 @@ http://alexgontsa.ddns.net/<br>
 
 
 #### Об авторах.<br>
-**Студент Яндекс.Практикум**<br>
 Гонца Алексей<br>
 [DockerHub](https://hub.docker.com/u/alexgon354)<br>
 
